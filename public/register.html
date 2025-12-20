@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="./CSS/register.css">
+</head>
+
+<body>
+    <form id="form" action="/api/register" method="post">
+
+        <div id="heading">
+            Create Account
+        </div>
+
+        <div>
+            <label for="first_name">First Name:</label>
+            <input id="first_name" type="text" placeholder="First Name" name="first_name" required>
+        </div>
+
+        <div>
+            <label for="first_name">Last Name:</label>
+            <input id="last_name" type="text" placeholder="Last Name" name="last_name" required>
+        </div>
+
+        <div>
+            <label for="email">Email:</label>
+            <input id="email" type="email" placeholder="E-mail" name="email" required>
+        </div>
+
+        <div>
+            <label for="username">Username:</label>
+            <input id="username" type="text" placeholder="Username" name="username" required>
+        </div>
+
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+        </div>
+
+        <div>
+            <label for="c_password">Confirm Password:</label>
+            <input type="password" name="c_password" id="c_password" placeholder="Confirm Password" required>
+        </div>
+
+        <div>
+            <input type="submit" value="Sign up">
+        </div>
+
+        <div id="errors">
+
+        </div>
+
+        <a href="/login.html">Already Signed up? Sign In</a>
+    </form>
+</body>
+<script src="./JS/register.js"></script>
+
+</html>

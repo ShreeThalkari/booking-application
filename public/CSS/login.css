@@ -1,0 +1,402 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Decorative background elements */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    z-index: -1;
+}
+
+/* Success Message Container */
+#success_msg {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 25px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: 0 8px 25px rgba(67, 233, 123, 0.3);
+    animation: slideDown 0.5s ease-out;
+}
+
+.no_msg {
+    display: none;
+}
+
+/* Success message for registration (JS controlled) */
+#register_success_msg {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 25px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: 0 8px 25px rgba(67, 233, 123, 0.3);
+    animation: slideDown 0.5s ease-out;
+}
+
+/* Form Container */
+form {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px 35px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Form Title (implicit) */
+form::before {
+    content: 'Welcome Back';
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 35px;
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Form Groups */
+form>div {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* Labels */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid #e1e5e9;
+    border-radius: 12px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+    color: #333;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow:
+        0 0 0 4px rgba(102, 126, 234, 0.1),
+        inset 0 2px 4px rgba(0, 0, 0, 0.04);
+    transform: translateY(-1px);
+}
+
+input::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+/* Submit Button */
+input[type="submit"] {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+input[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Sign Up Link */
+a {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    padding: 12px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+a:hover::before {
+    left: 100%;
+}
+
+a:hover {
+    color: #764ba2;
+    background-color: rgba(102, 126, 234, 0.05);
+}
+
+/* Error Messages Container */
+#error_msg {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 25px;
+    animation: slideUp 0.5s ease-out;
+}
+
+#error_msg ul {
+    list-style-type: none;
+    padding: 20px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+#error_msg li {
+    color: white;
+    font-size: 15px;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+#error_msg li::before {
+    content: '!';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: white;
+    color: #ff6b6b;
+    border-radius: 50%;
+    margin-right: 12px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Input Icons */
+form>div::after {
+    font-family: 'Segoe UI Symbol';
+    position: absolute;
+    right: 18px;
+    top: 40px;
+    font-size: 18px;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+form>div:first-child::after {
+    content: '👤';
+}
+
+form>div:nth-child(2)::after {
+    content: '🔒';
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    form {
+        padding: 30px 25px;
+        max-width: 100%;
+    }
+
+    #success_msg,
+    #error_msg,
+    #register_success_msg {
+        max-width: 100%;
+    }
+
+    form::before {
+        font-size: 24px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        padding: 15px 18px;
+        font-size: 15px;
+    }
+
+    input[type="submit"] {
+        padding: 16px;
+        font-size: 16px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading state for form submission */
+form.submitting {
+    position: relative;
+    pointer-events: none;
+}
+
+form.submitting::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+form.submitting::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #667eea;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 11;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Password toggle (optional enhancement) */
+.password-wrapper {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px;
+    transition: color 0.3s;
+}
+
+.toggle-password:hover {
+    color: #667eea;
+}
