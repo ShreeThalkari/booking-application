@@ -1,0 +1,97 @@
+##################################
+# Environment & Secrets
+##################################
+.env
+.env.*
+!.env.example
+
+##################################
+# Node.js
+##################################
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
+##################################
+# Build / Distribution
+##################################
+dist/
+build/
+out/
+.cache/
+.tmp/
+
+##################################
+# Logs
+##################################
+logs/
+*.log
+
+##################################
+# OS / Editor Files
+##################################
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+##################################
+# Coverage / Testing
+##################################
+coverage/
+.nyc_output/
+jest-cache/
+
+##################################
+# Runtime / Process
+##################################
+pids/
+*.pid
+*.pid.lock
+
+##################################
+# PostgreSQL / Database
+##################################
+*.sql
+*.dump
+*.backup
+*.bak
+*.db
+postgres-data/
+pgdata/
+
+##################################
+# Uploads / Generated Files
+##################################
+uploads/
+public/uploads/
+temp/
+tmp/
+
+##################################
+# Frontend (HTML / CSS / JS)
+##################################
+.parcel-cache/
+.cache-loader/
+.eslintcache
+
+##################################
+# Optional Frameworks
+##################################
+.next/
+.nuxt/
+.svelte-kit/
+.angular/
+.vite/
+
+##################################
+# Misc
+##################################
+*.tgz
+*.zip
