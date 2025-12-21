@@ -60,6 +60,9 @@ const registerLogic = async (req, res) => {
     }
 };
 
+const loginLogic = (req, rs) => {
+
+}
 
 module.exports = {
     registerLogic
