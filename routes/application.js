@@ -3,11 +3,18 @@ const path = require('path')
 const router = express.Router()
 
 const {
-    registerLogic
-} = require('@/controllers/application')
+    registerLogic,
+    loginLogic,
+    refresh,
+    logout
+} = require('@/controllers/auth')
 
-// !router.post('/login', loginLogic)
+router.post('/login', loginLogic)
 
 router.post('/register', registerLogic)
+
+router.post('/refresh', refresh)
+
+router.post('/logout', logout)
 
 module.exports = router

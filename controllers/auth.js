@@ -1,5 +1,10 @@
 const pool = require('@/config/db.js')
 const bcrypt = require('bcrypt')
+const {
+    generateAccessToken,
+    generateRefreshToken
+} = require('@/utils/token')
+const passport = require('passport');
 
 const registerLogic = async (req, res) => {
     const { first_name, last_name, username, email, password, c_password } = req.body;
@@ -60,10 +65,99 @@ const registerLogic = async (req, res) => {
     }
 };
 
-const loginLogic = (req, rs) => {
+const loginLogic = (req, res, next) => {
+    passport.authenticate('local', { session: false }, async (err, user, info) => {
+        if (err) return next(err);
+        if (!user) {
+            return res.status(401).json({
+                errors: [{ message: info?.message || 'Invalid credentials' }]
+            })
+        }
 
+        const accessToken = generateAccessToken(user);
+        const refreshToken = generateRefreshToken();
+
+        await pool.query(
+            `INSERT INTO refresh_tokens (user_id, token, expires_at)
+             VALUES ($1, $2, NOW() + INTERVAL '7 days')`,
+            [user.id, refreshToken]
+        )
+
+        res
+            .cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            })
+            .json({ accessToken })
+    })(req, res, next)
+}
+
+// controllers/auth.js
+const refresh = async (req, res) => {
+    const oldRefreshToken = req.cookies.refreshToken
+    if (!oldRefreshToken) return res.sendStatus(401)
+
+    // 1️⃣ Check token exists and is valid
+    const result = await pool.query(
+        `SELECT user_id FROM refresh_tokens
+         WHERE token = $1 AND expires_at > NOW()`,
+        [oldRefreshToken]
+    )
+
+    if (result.rows.length === 0) {
+        return res.sendStatus(403) // token reuse or expired
+    }
+
+    const userId = result.rows[0].user_id
+
+    // 2️⃣ DELETE old refresh token (rotation)
+    await pool.query(
+        'DELETE FROM refresh_tokens WHERE token = $1',
+        [oldRefreshToken]
+    )
+
+    // 3️⃣ Generate new tokens
+    const newAccessToken = generateAccessToken({ id: userId })
+    const newRefreshToken = generateRefreshToken()
+
+    // 4️⃣ Store new refresh token
+    await pool.query(
+        `INSERT INTO refresh_tokens (user_id, token, expires_at)
+         VALUES ($1, $2, NOW() + INTERVAL '7 days')`,
+        [userId, newRefreshToken]
+    )
+
+    // 5️⃣ Set new refresh token cookie
+    res
+        .cookie('refreshToken', newRefreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+        .json({ accessToken: newAccessToken })
+}
+
+
+const logout = async (req, res) => {
+    const refreshToken = req.cookies.refreshToken
+
+    if (refreshToken) {
+        await pool.query(
+            'DELETE FROM refresh_tokens WHERE token = $1',
+            [refreshToken]
+        )
+    }
+
+    res.clearCookie('refreshToken')
+    res.sendStatus(204)
 }
 
 module.exports = {
-    registerLogic
+    registerLogic,
+    loginLogic,
+    refresh,
+    logout
 }

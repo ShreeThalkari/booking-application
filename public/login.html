@@ -12,25 +12,29 @@
     <div id="register_success_msg" class="">
 
     </div>
-    <form id="form" action="/login" method="post">
+    <form id="form">
         <div>
             <label for="username">Username:</label>
             <input id="username" type="text" placeholder="Username" name="username" required>
         </div>
+
         <div>
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" placeholder="Password">
         </div>
+
+        <div id="errors">
+
+        </div>
+
         <div>
             <input type="submit" value="Sign in">
         </div>
+
         <a href="/register.html">New Here? Sign Up</a>
     </form>
 
-    <div id="errors">
-
-    </div>
+    <script type="module" src="/JS/login.js"></script>
 </body>
-<script src="./JS/login.js"></script>
 
 </html>
