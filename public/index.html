@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayEasy | Browse All Properties</title>
+    <link rel="stylesheet" href="./CSS/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-home"></i>
+                    <span>StayEasy</span>
+                </a>
+
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link active">All Properties</a>
+                    <a href="#" class="nav-link">Become a Host</a>
+                    <a href="#" class="nav-link">Help</a>
+                    <a href="#" class="nav-link">Sign In</a>
+                    <a href="#" class="btn btn-primary">Sign Up</a>
+                </div>
+
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+            <div class="container">
+                <div class="banner-content">
+                    <h1 class="banner-title">Browse All Available Properties</h1>
+                    <p class="banner-subtitle">Find your perfect stay from our wide selection of homes, apartments, and
+                        unique stays</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters & Search -->
+        <section class="filters-section">
+            <div class="container">
+                <div class="filters-container">
+                    <!-- Quick Filters -->
+                    <div class="quick-filters">
+                        <button class="filter-btn active">All Types</button>
+                        <button class="filter-btn">Apartments</button>
+                        <button class="filter-btn">Houses</button>
+                        <button class="filter-btn">Cabins</button>
+                        <button class="filter-btn">Beachfront</button>
+                        <button class="filter-btn">Luxury</button>
+                    </div>
+
+                    <!-- Advanced Filters -->
+                    <div class="advanced-filters">
+                        <div class="filter-group">
+                            <label for="price-range">Price Range</label>
+                            <select id="price-range" class="filter-select">
+                                <option value="">Any Price</option>
+                                <option value="0-100">$0 - $100</option>
+                                <option value="100-200">$100 - $200</option>
+                                <option value="200-500">$200 - $500</option>
+                                <option value="500+">$500+</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="bedrooms">Bedrooms</label>
+                            <select id="bedrooms" class="filter-select">
+                                <option value="">Any</option>
+                                <option value="1">1+</option>
+                                <option value="2">2+</option>
+                                <option value="3">3+</option>
+                                <option value="4">4+</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="bathrooms">Bathrooms</label>
+                            <select id="bathrooms" class="filter-select">
+                                <option value="">Any</option>
+                                <option value="1">1+</option>
+                                <option value="2">2+</option>
+                                <option value="3">3+</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="amenities">Amenities</label>
+                            <select id="amenities" class="filter-select">
+                                <option value="">All</option>
+                                <option value="wifi">WiFi</option>
+                                <option value="pool">Pool</option>
+                                <option value="kitchen">Kitchen</option>
+                                <option value="parking">Parking</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="sort-by">Sort By</label>
+                            <select id="sort-by" class="filter-select">
+                                <option value="recommended">Recommended</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="rating">Highest Rated</option>
+                                <option value="newest">Newest</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-secondary filter-apply">
+                            <i class="fas fa-filter"></i>
+                            Apply Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- All Properties Grid -->
+        <section class="all-properties-section">
+            <div class="container">
+                <div class="properties-header">
+                    <h2 class="properties-count">
+                        <span id="property-count">0</span> Properties Available
+                    </h2>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid">
+                            <i class="fas fa-th-large"></i>
+                            Grid
+                        </button>
+                        <button class="view-btn" data-view="list">
+                            <i class="fas fa-list"></i>
+                            List
+                        </button>
+                        <button class="view-btn" data-view="map">
+                            <i class="fas fa-map"></i>
+                            Map
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Properties Grid -->
+                <div class="properties-grid" id="properties-container">
+                    <!-- Property cards will be dynamically loaded here -->
+                    <!-- This area will be populated with ALL properties from your database -->
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading-state" id="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading properties...</p>
+                </div>
+
+                <!-- No Results State -->
+                <div class="no-results" id="no-results" style="display: none;">
+                    <i class="fas fa-search"></i>
+                    <h3>No properties found</h3>
+                    <p>Try adjusting your filters or search criteria</p>
+                    <button class="btn btn-outline" id="clear-filters">Clear All Filters</button>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="pagination">
+                    <button class="pagination-btn prev" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                        Previous
+                    </button>
+                    <div class="page-numbers">
+                        <span class="page-number active">1</span>
+                        <span class="page-number">2</span>
+                        <span class="page-number">3</span>
+                        <span class="page-number">4</span>
+                        <span class="page-number">5</span>
+                    </div>
+                    <button class="pagination-btn next">
+                        Next
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Property Types Summary -->
+        <section class="property-types-section">
+            <div class="container">
+                <h2 class="section-title">Browse by Property Type</h2>
+                <div class="types-grid">
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="type-info">
+                            <h3 class="type-name">Apartments</h3>
+                            <p class="type-count">
+                                <span class="count-number" id="apartment-count">0</span> properties
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="type-info">
+                            <h3 class="type-name">Houses</h3>
+                            <p class="type-count">
+                                <span class="count-number" id="house-count">0</span> properties
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-umbrella-beach"></i>
+                        </div>
+                        <div class="type-info">
+                            <h3 class="type-name">Beachfront</h3>
+                            <p class="type-count">
+                                <span class="count-number" id="beachfront-count">0</span> properties
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <div class="type-info">
+                            <h3 class="type-name">Cabins</h3>
+                            <p class="type-count">
+                                <span class="count-number" id="cabin-count">0</span> properties
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="type-info">
+                            <h3 class="type-name">Luxury</h3>
+                            <p class="type-count">
+                                <span class="count-number" id="luxury-count">0</span> properties
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <div class="type-info">
+                            <h3 class="type-name">City Center</h3>
+                            <p class="type-count">
+                                <span class="count-number" id="city-count">0</span> properties
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo footer-logo">
+                        <i class="fas fa-home"></i>
+                        <span>StayEasy</span>
+                    </a>
+                    <p class="footer-description">
+                        Find your perfect stay anywhere in the world. Book unique homes, apartments, and more.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Discover</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Trust & Safety</a></li>
+                        <li><a href="#">Travel Credit</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                        <li><a href="#">Business Travel</a></li>
+                        <li><a href="#">Things To Do</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Hosting</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Why Host</a></li>
+                        <li><a href="#">Responsible Hosting</a></li>
+                        <li><a href="#">Community Center</a></li>
+                        <li><a href="#">Host an Experience</a></li>
+                        <li><a href="#">Resource Center</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Cancellation Options</a></li>
+                        <li><a href="#">Neighborhood Support</a></li>
+                        <li><a href="#">COVID-19 Response</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="copyright">© 2023 StayEasy. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Property Detail Modal (Hidden) -->
+    <div class="modal" id="property-modal">
+        <div class="modal-content">
+            <button class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <!-- Property details will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample property data structure (replace with your actual data)
+        const sampleProperties = [
+            {
+                id: 1,
+                title: "Property Title",
+                location: "City, Country",
+                type: "apartment",
+                price: 120,
+                rating: 4.8,
+                guests: 4,
+                bedrooms: 2,
+                bathrooms: 1,
+                amenities: ["wifi", "kitchen", "parking"],
+                image: null // Add your image URLs here
+            }
+            // Add more properties here or load from API
+        ];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Menu toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function () {
+                    navMenu.classList.toggle('show');
+                });
+            }
+
+            // Filter button functionality
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    // Apply filter logic here
+                    filterProperties();
+                });
+            });
+
+            // View toggle functionality
+            const viewBtns = document.querySelectorAll('.view-btn');
+            const propertiesContainer = document.getElementById('properties-container');
+
+            viewBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    viewBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const viewType = this.getAttribute('data-view');
+                    propertiesContainer.className = `properties-grid view-${viewType}`;
+
+                    if (viewType === 'map') {
+                        // Initialize map view
+                        showMapView();
+                    }
+                });
+            });
+
+            // Apply filters button
+            const applyFiltersBtn = document.querySelector('.filter-apply');
+            if (applyFiltersBtn) {
+                applyFiltersBtn.addEventListener('click', filterProperties);
+            }
+
+            // Clear filters button
+            const clearFiltersBtn = document.getElementById('clear-filters');
+            if (clearFiltersBtn) {
+                clearFiltersBtn.addEventListener('click', function () {
+                    // Reset all filters
+                    document.querySelectorAll('.filter-select').forEach(select => {
+                        select.value = '';
+                    });
+
+                    filterBtns.forEach(btn => btn.classList.remove('active'));
+                    filterBtns[0].classList.add('active');
+
+                    filterProperties();
+                });
+            }
+
+            // Pagination
+            const paginationBtns = document.querySelectorAll('.pagination-btn');
+            const pageNumbers = document.querySelectorAll('.page-number');
+
+            paginationBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    if (this.classList.contains('prev')) {
+                        // Previous page logic
+                        updatePagination('prev');
+                    } else if (this.classList.contains('next')) {
+                        // Next page logic
+                        updatePagination('next');
+                    }
+                });
+            });
+
+            pageNumbers.forEach(number => {
+                number.addEventListener('click', function () {
+                    pageNumbers.forEach(n => n.classList.remove('active'));
+                    this.classList.add('active');
+                    // Load page data
+                    loadPageData(parseInt(this.textContent));
+                });
+            });
+
+            // Initialize with loading state
+            setTimeout(() => {
+                // Simulate API call delay
+                loadProperties();
+            }, 1000);
+        });
+
+        // Function to filter properties based on selected filters
+        function filterProperties() {
+            const loadingState = document.getElementById('loading-state');
+            const noResults = document.getElementById('no-results');
+            const propertiesContainer = document.getElementById('properties-container');
+
+            // Show loading
+            loadingState.style.display = 'flex';
+            noResults.style.display = 'none';
+            propertiesContainer.innerHTML = '';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Get filter values
+                const priceRange = document.getElementById('price-range').value;
+                const bedrooms = document.getElementById('bedrooms').value;
+                const bathrooms = document.getElementById('bathrooms').value;
+                const amenities = document.getElementById('amenities').value;
+                const sortBy = document.getElementById('sort-by').value;
+
+                // Apply your filtering logic here
+                // For now, we'll just show sample properties
+                displayProperties(sampleProperties);
+
+                // Hide loading
+                loadingState.style.display = 'none';
+
+                // Update counts
+                updatePropertyCounts(sampleProperties.length);
+            }, 500);
+        }
+
+        // Function to load and display properties
+        function loadProperties() {
+            const loadingState = document.getElementById('loading-state');
+            const propertiesContainer = document.getElementById('properties-container');
+
+            // Show loading
+            loadingState.style.display = 'flex';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Replace this with your actual API call
+                const properties = sampleProperties; // Get from your API
+
+                displayProperties(properties);
+
+                // Hide loading
+                loadingState.style.display = 'none';
+
+                // Update counts
+                updatePropertyCounts(properties.length);
+
+                // Update type counts
+                updateTypeCounts(properties);
+            }, 1000);
+        }
+
+        // Function to display properties in the grid
+        function displayProperties(properties) {
+            const propertiesContainer = document.getElementById('properties-container');
+            const noResults = document.getElementById('no-results');
+
+            if (properties.length === 0) {
+                noResults.style.display = 'block';
+                propertiesContainer.innerHTML = '';
+                return;
+            }
+
+            noResults.style.display = 'none';
+
+            // Clear container
+            propertiesContainer.innerHTML = '';
+
+            // Add property cards
+            properties.forEach(property => {
+                const propertyCard = createPropertyCard(property);
+                propertiesContainer.appendChild(propertyCard);
+            });
+        }
+
+        // Function to create property card HTML
+        function createPropertyCard(property) {
+            const card = document.createElement('div');
+            card.className = 'property-card';
+            card.innerHTML = `
+                <div class="property-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <button class="wishlist-btn">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <span class="property-type">${property.type}</span>
+                </div>
+                
+                <div class="property-details">
+                    <h3 class="property-title">${property.title}</h3>
+                    <p class="property-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${property.location}</span>
+                    </p>
+                    
+                    <div class="property-info">
+                        <span class="info-item">
+                            <i class="fas fa-user-friends"></i>
+                            <span>${property.guests} guests</span>
+                        </span>
+                        <span class="info-item">
+                            <i class="fas fa-bed"></i>
+                            <span>${property.bedrooms} bedrooms</span>
+                        </span>
+                        <span class="info-item">
+                            <i class="fas fa-bath"></i>
+                            <span>${property.bathrooms} bathrooms</span>
+                        </span>
+                    </div>
+                    
+                    <div class="property-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <span>${property.rating}</span>
+                        </div>
+                        <span class="price">$${property.price}/night</span>
+                    </div>
+                    
+                    <button class="btn btn-primary book-btn">Book Now</button>
+                </div>
+            `;
+
+            // Add click event to book button
+            const bookBtn = card.querySelector('.book-btn');
+            bookBtn.addEventListener('click', () => {
+                // Navigate to booking page or show modal
+                alert(`Booking ${property.title}`);
+            });
+
+            return card;
+        }
+
+        // Function to update property counts
+        function updatePropertyCounts(count) {
+            const countElement = document.getElementById('property-count');
+            if (countElement) {
+                countElement.textContent = count;
+            }
+        }
+
+        // Function to update type counts
+        function updateTypeCounts(properties) {
+            // Count properties by type
+            const typeCounts = {
+                apartment: properties.filter(p => p.type === 'apartment').length,
+                house: properties.filter(p => p.type === 'house').length,
+                beachfront: properties.filter(p => p.type === 'beachfront').length,
+                cabin: properties.filter(p => p.type === 'cabin').length,
+                luxury: properties.filter(p => p.type === 'luxury').length,
+                city: properties.filter(p => p.type === 'city').length
+            };
+
+            // Update count elements
+            document.getElementById('apartment-count').textContent = typeCounts.apartment;
+            document.getElementById('house-count').textContent = typeCounts.house;
+            document.getElementById('beachfront-count').textContent = typeCounts.beachfront;
+            document.getElementById('cabin-count').textContent = typeCounts.cabin;
+            document.getElementById('luxury-count').textContent = typeCounts.luxury;
+            document.getElementById('city-count').textContent = typeCounts.city;
+        }
+
+        // Function to show map view
+        function showMapView() {
+            // Implement map view functionality
+            alert('Map view would be implemented here with a mapping library like Google Maps or Leaflet');
+        }
+
+        // Function to update pagination
+        function updatePagination(direction) {
+            // Implement pagination logic
+        }
+
+        // Function to load page data
+        function loadPageData(pageNumber) {
+            // Implement page loading logic
+        }
+    </script>
+</body>
+
+</html>
