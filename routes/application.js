@@ -6,8 +6,12 @@ const {
     registerLogic,
     loginLogic,
     refresh,
-    logout
+    logout,
 } = require('@/controllers/auth')
+
+const {
+    listingLogic
+} = require('@/controllers/listing')
 
 router.post('/login', loginLogic)
 
@@ -16,5 +20,7 @@ router.post('/register', registerLogic)
 router.post('/refresh', refresh)
 
 router.post('/logout', logout)
+
+router.get('/index', listingLogic)
 
 module.exports = router

@@ -30,7 +30,6 @@ const homePage = async (req, res) => {
             properties: result.rows,
             message: 'Welcome to dashboard'
         });
-
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -38,5 +37,36 @@ const homePage = async (req, res) => {
         });
     }
 };
+const listingLogic = async (req, res) => {
+    const listing_query = `
+            SELECT l.id,
+                l.title,
+                l.loc_country,
+                l.loc_state,
+                l.loc_city,
+                p.guests,
+                p.bedrooms,
+                p.bathrooms,
+                p.property_rate,
+                p.property_type,
+                i.image_url,
+                u.username
+            FROM listing l
+            JOIN property_details p
+                ON l.id = p.property_id
+            LEFT JOIN listing_images i
+                ON l.id = i.listing_id
+                AND i.is_cover = true
+            LEFT JOIN user_data u
+                ON l.host_id = u.id
+            ORDER BY l.id DESC;
+        `
+    const result = await pool.query(listing_query);
+    res.status(200).json({
+        user: req.user,
+        properties: result.rows,
+        message: 'Welcome to dashboard'
+    });
+}
 
-module.exports = { homePage };
+module.exports = { homePage, listingLogic };
