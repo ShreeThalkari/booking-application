@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         function addPropertyCards(property) {
             return `
+            <a href="/property.html?id=${property.id}" class="property-link">
                 <div class="property-card">
                     <div class="property-image">
                         <div class="image-placeholder">
@@ -88,10 +89,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 <i class="fas fa-star"></i>
                                 <span>Rating</span>
                             </div>
-                            <span class="price">$${property.property_rate}/night</span>
+                            <span class="price">₹${property.property_rate}/night</span>
                         </div>
                     </div>
                 </div>
+            </a>
             `
         }
     } catch (err) {

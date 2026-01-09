@@ -9,9 +9,7 @@ export async function apiFetch(url, options = {}) {
         })
 
         if (!refreshRes.ok) {
-            // Refresh failed → user must login again
-            window.location.href = '/login.html'
-            return
+            return null
         }
 
         const refreshData = await refreshRes.json()

@@ -68,5 +68,15 @@ const listingLogic = async (req, res) => {
         message: 'Welcome to dashboard'
     });
 }
+const authChecker = (req, res) => {
+    res.json({
+        authenticated: true,
+        user: {
+            id: req.user.id,
+            username: req.user.username,
+            email: req.user.email
+        }
+    })
+}
 
-module.exports = { homePage, listingLogic };
+module.exports = { homePage, listingLogic, authChecker };
