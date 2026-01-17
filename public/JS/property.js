@@ -40,22 +40,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let nights = 0
         const data = await res.json();
-        root.innerHTML = property_details(data, nights)
+        root.innerHTML = property_details(data.result, nights)
 
         const main_image = document.querySelector('.main-image')
         const side_images = document.querySelector('.side-images')
         const amenities_grid = document.querySelector('.amenities-grid')
 
         main_image.innerHTML = `
-            <img src=${data.cover_image} alt="">
+            <img src=${data.result.cover_image} alt="">
         `
-        data.side_images.forEach(img => {
+        data.result.side_images.forEach(img => {
             side_images.innerHTML += `
                 <img src=${img} alt="">
             `
         });
 
-        data.amenities.forEach(data => {
+        data.result.amenities.forEach(data => {
             amenities_grid.innerHTML += `
                 <div class="amenity-item">
                     <span> -> ${data}</span>
@@ -66,10 +66,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const guests_nos = document.querySelector(".guests-dropdown");
         guests_nos.innerHTML = "";
 
-        const maxGuests = Number(data.guests);
+        const maxGuests = Number(data.result.guests);
         const limit = Math.min(maxGuests, 4);
 
-        let guests = 0;
+        let guests = 1;
 
         for (let i = 1; i <= limit; i++) {
             guests_nos.innerHTML += `
@@ -123,7 +123,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const book_btn = document.querySelector('.btn-book')
 
-        const bookedDates = ["2026-01-25", "2026-01-26"];
+        const bookedDates = [];
+
+        dateDisable(bookedDates, data.dates.checkin_dates, data.dates.checkout_dates)
+
+        console.log(bookedDates)
 
         if (checkinInput && checkoutInput && typeof flatpickr === 'function') {
 
@@ -139,13 +143,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     // Update UI
                     document.getElementById('night_cnt').textContent =
-                        `${data.property_rate} x ${nights} nights`
+                        `${data.result.property_rate} x ${nights} nights`
 
                     document.getElementById("subtotal").textContent =
-                        `₹${data.property_rate * nights}`;
+                        `₹${data.result.property_rate * nights}`;
 
                     document.getElementById("total").textContent =
-                        `₹${data.property_rate * nights + 75 + 113}`;
+                        `₹${data.result.property_rate * nights + 75 + 113}`;
 
                     book_btn.disabled = false;
                 }
@@ -163,8 +167,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const minCheckoutDate = new Date(selectedCheckin);
                     minCheckoutDate.setDate(minCheckoutDate.getDate() + 1);
 
+                    const nextBlockedDate = findNextBlockedDate(selectedCheckin, bookedDates);
+
                     checkoutPicker.set("minDate", minCheckoutDate);
+
+                    if (nextBlockedDate) {
+                        checkoutPicker.set("maxDate", nextBlockedDate);
+                    } else {
+                        checkoutPicker.set("maxDate", null);
+                    }
+
                     checkoutPicker.clear();
+
 
                     selectedCheckout = null;
                     nights = 0;
@@ -338,6 +352,38 @@ document.addEventListener('DOMContentLoaded', async () => {
             String(date.getMonth() + 1).padStart(2, "0") + "-" +
             String(date.getDate()).padStart(2, "0")
         );
+    }
+
+    function dateDisable(bookedDates, checkin, checkout) {
+        for (let i = 0; i < checkin.length; i++) {
+
+            const fromDate = new Date(checkin[i]);
+            const toDate = new Date(checkout[i]);
+
+            // make checkout EXCLUSIVE
+            toDate.setDate(toDate.getDate() - 1);
+
+            bookedDates.push({
+                from: toYMD(fromDate),
+                to: toYMD(toDate)
+            });
+        }
+    }
+
+    function findNextBlockedDate(checkinDate, bookedRanges) {
+        let nextBlocked = null;
+
+        bookedRanges.forEach(range => {
+            const from = new Date(range.from);
+
+            if (from > checkinDate) {
+                if (!nextBlocked || from < nextBlocked) {
+                    nextBlocked = from;
+                }
+            }
+        });
+
+        return nextBlocked;
     }
 
 

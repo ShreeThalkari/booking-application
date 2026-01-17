@@ -45,13 +45,27 @@ const getPropertyById = async (req, res) => {
 
     `;
 
+    const bookingDatesQuery = 'SELECT checkin_date::text, checkout_date::text FROM bookings WHERE property_id = $1;'
+
     const result = await pool.query(query, [id]);
+
+    const dates = await pool.query(bookingDatesQuery, [id]);
+    const checkin_dates = dates.rows.map(row => row.checkin_date);
+    const checkout_dates = dates.rows.map(row => row.checkout_date);
 
     if (result.rows.length === 0) {
         return res.status(404).json({ message: 'Property not found' });
     }
 
-    res.json(result.rows[0]); // single property
+    res.json(
+        {
+            result: result.rows[0],
+            dates: {
+                checkin_dates: checkin_dates,
+                checkout_dates: checkout_dates
+            }
+        }
+    ); // single property
 };
 
 module.exports = { getPropertyById };
